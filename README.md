@@ -3,8 +3,8 @@ CrowdStrike IoC Uploader
 
 # Installation
 ```bash
-git clone https://github.com/ch-ducnguyen/IoC.git \ 
-cd Ioc \ 
+git clone https://github.com/ch-ducnguyen/IoC.git 
+cd Ioc 
 python3 -m pip install -r requirements.txt 
 ```
 

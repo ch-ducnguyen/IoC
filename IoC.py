@@ -28,7 +28,7 @@ parser.add_argument('-p','--platform',help='Platform name. Use "," as delimeter.
 parser.add_argument('-H','--host-group',help='Host group. Use "," as delimeter. If --apply-global is set this will be empty',type=tlist, default="")
 parser.add_argument('-c','--comment',help='Comment for indicator (Default is empty)',default="")
 parser.add_argument('-d','--description',help='Description for indicator (Default is empty)',default="")
-parser.add_argument('-a','--action',help="Action for indicator (Default is detect). Valid value : 'detect','block'",default='detect',type=action)
+parser.add_argument('-a','--action',help="Action for indicator (Default is detect). Valid value : 'detect','block','allow','no_action'",default='detect',type=action)
 
 args = parser.parse_args()
 

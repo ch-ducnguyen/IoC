@@ -60,6 +60,8 @@ def falcon_request(ioc_type,ioc_value):
 def check_response(response,ioc_value):
     if response['status_code'] == 201:
         print(f'[+] IoC for {ioc_value} created')
+    elif response['status_code'] == 400:
+        print(f'[+] Duplicate IoC {ioc_value}, skip!')
     else:
         print(response)
 def create_IoCs(df: pd.DataFrame):
@@ -67,24 +69,36 @@ def create_IoCs(df: pd.DataFrame):
         ioc_type_pre = row['ItemType']
 
         if ioc_type_pre == 'IP Address':
-            ioc_type_ipv4 = 'IPv4'
-            ioc_value_ipv4 = row['Item'].replace('[', '').replace(']', '')
-            response = falcon_request(ioc_type_ipv4,ioc_value_ipv4)
-            check_response(response,ioc_value_ipv4)
+            detection = row['Detection']
+            if detection == "Not Found":
+                pass
+            else:
+                ioc_type_ipv4 = 'IPv4'
+                ioc_value_ipv4 = row['Item'].replace('[', '').replace(']', '')
+                response = falcon_request(ioc_type_ipv4,ioc_value_ipv4)
+                check_response(response,ioc_value_ipv4)
         elif ioc_type_pre == 'File':
-            ioc_value_md5 = row['MD5']
-            ioc_type_md5 = 'MD5'
-            ioc_value_sha256 = row['SHA256']
-            ioc_type_sha256 = 'SHA256'
-            md5_response = falcon_request(ioc_type_md5,ioc_value_md5)
-            sha256_response = falcon_request(ioc_type_sha256,ioc_value_sha256)
-            check_response(md5_response,ioc_value_md5)
-            check_response(sha256_response,ioc_value_sha256)
+            detection = row['Detection']
+            if detection == "Not Found":
+                pass
+            else:
+                ioc_value_md5 = row['MD5']
+                ioc_type_md5 = 'MD5'
+                ioc_value_sha256 = row['SHA256']
+                ioc_type_sha256 = 'SHA256'
+                md5_response = falcon_request(ioc_type_md5,ioc_value_md5)
+                sha256_response = falcon_request(ioc_type_sha256,ioc_value_sha256)
+                check_response(md5_response,ioc_value_md5)
+                check_response(sha256_response,ioc_value_sha256)
         elif ioc_type_pre == 'Domain' or ioc_type_pre == 'URL':
-            ioc_value_domain = row['Item'].replace('[', '').replace(']', '')
-            ioc_type_domain = 'Domain'
-            domain_response = falcon_request(ioc_type_domain,ioc_value_domain)
-            check_response(domain_response,ioc_value_domain)
+            detection = row['Detection']
+            if detection == "Not Found":
+                pass
+            else:
+                ioc_value_domain = row['Item'].replace('[', '').replace(']', '')
+                ioc_type_domain = 'Domain'
+                domain_response = falcon_request(ioc_type_domain,ioc_value_domain)
+                check_response(domain_response,ioc_value_domain)
         else:
             print("[!] Unknown Item type")
 
